@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
+import { NavBar } from "../todoApp/components/NavBar";
 
 
 
@@ -10,6 +11,9 @@ export const PrivateRoutes = () => {
     if( !loading && !isAuthenticated )return <Navigate to='/login' replace />
 
   return (
-    <Outlet />
+    <>
+      <NavBar />
+      <Outlet />
+    </>
   )
 }
