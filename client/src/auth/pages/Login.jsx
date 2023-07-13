@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const { register, handleSubmit, formState:{ errors } } =useForm();
-  const { signIn, user, isAuthenticated, errors:signInErrors } = useAuth();
+  const { signIn, isAuthenticated, errors:signInErrors } = useAuth();
 
   const navigate = useNavigate();
 
@@ -16,7 +16,6 @@ export const Login = () => {
 
   const onSubmit  = handleSubmit(async(values)=>{
     signIn(values);
-    console.log(user)
   });
 
   return (
