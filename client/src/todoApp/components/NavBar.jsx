@@ -1,18 +1,17 @@
 import { AiOutlineLogout } from 'react-icons/ai';
 import { IoMdAddCircle } from 'react-icons/io';
 import { kanban } from '../../assets';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../context/auth/AuthProvider';
 import { Link, useNavigate } from 'react-router-dom';
+
 
 
 export const NavBar = () => {
     const navigate = useNavigate();
     const { signOut, user } = useAuth();
-    
     const onAddTask = () => {
         navigate('/add-task')
     }
-    console.log(user.userName)
   return (
         <nav className="bg-purple-900 py-4 px-6 flex justify-between items-center">
             <div className="flex items-center">
@@ -20,15 +19,12 @@ export const NavBar = () => {
                 <h1 className="text-white font-bold text-lg">Kanban</h1>
             </div>
             <div>
-                { user ? (
-                    <label className='text-white px-4 py-2 rounded-md mr-2 text-xl'>
+            <label className='text-white px-4 py-2 rounded-md mr-2 text-xl' title={`
+            Nombre de usuario: ${user.userName} 
+            Correo del usuario: ${user.userEmail}
+            `}>
                         { user.userName }
-                    </label>
-                ): (
-                    <label className='text-white px-4 py-2 rounded-md mr-2 text-xl'>
-                        userName
-                    </label>
-                ) }
+            </label>
 
                 <button className= "text-white px-4 py-2 rounded-md mr-2 text-xl"
                     onClick={ onAddTask }

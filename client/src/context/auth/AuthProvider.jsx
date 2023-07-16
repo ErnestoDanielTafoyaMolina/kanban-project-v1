@@ -1,9 +1,9 @@
 import { useContext, useEffect, useReducer } from "react";
 import { AuthContext } from "./AuthContex";
-import { loginRequest, logoutRequest, registerRequest, verifyTokenRequest } from "../api/auth";
+import { loginRequest, registerRequest, verifyTokenRequest } from "../../api/auth";
 import Cookies from "js-cookie";
 import authReducer from "./authReducer";
-import actionTypes from "../types/types";
+import actionTypes from "../../types/types";
 
 
 export const useAuth = () => {
@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (user) => {
     try {
       const res = await loginRequest(user);
-      console.log(res.data);
       dispatch({ type: actionTypes.SET_USER, payload: res.data });
       dispatch({ type: actionTypes.SET_AUTHENTICATED, payload: true });
     } catch (error) {
@@ -54,7 +53,6 @@ export const AuthProvider = ({ children }) => {
       Cookies.remove("token");
       dispatch({ type: actionTypes.SET_USER, payload: {} });
       dispatch({ type: actionTypes.SET_AUTHENTICATED, payload: false });
-      await logoutRequest();
     } catch (error) {
       console.error(error);
     }

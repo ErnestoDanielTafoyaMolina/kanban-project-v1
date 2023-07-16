@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth } from "../context/auth";
 import { NavBar } from "../todoApp/components/NavBar";
 
 

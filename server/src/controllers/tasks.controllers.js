@@ -6,9 +6,9 @@ export const addTask = async(req,res)=>{
     const { taskName, taskDescription, taskUrlImage } = req.body;
     const idUser = req.user.id;
     if(!idUser || !taskName || !taskDescription){
-        res.status(400).json({
-            msg:"Se requiere al menos el nombre de la tarea y su descripcion "
-        });
+        return res.status(400).json(
+            ["Se requiere al menos el nombre de la tarea y su descripcion "]
+        );
     }
     try {
         //@idUser, @taskName, @taskDescription, @taskUrlImage
@@ -23,10 +23,9 @@ export const addTask = async(req,res)=>{
         .query(querys.addTask)
         return res
         .status(200)
-        .json({
-            msg:"tarea agregada",
-            addedTask:addedTask.recordset
-        })
+        .json(
+            [addedTask.recordset]
+        )
     } catch (error) {
         console.log(error.message);
         res.status(500).json({"message":error.message})
@@ -34,26 +33,21 @@ export const addTask = async(req,res)=>{
 };
 //se utiliza para eliminar una tarea existente. 
 export const deleteTask = async(req,res)=>{
-    const { idTask } = req.params;
-    if(!idTask){
-        res.status(400).json({
-            msg:"El id de la tarea es requerido"
-        });
-    };
+    const { id } = req.params;
     try {
         // // se intenta establecer una conexión a la base de datos
         const pool = await getConnection();
 // se ejecuta una consulta para eliminar la tarea
         const deletedTask = await pool
         .request()
-        .input("idTask",sql.Int,idTask)
+        .input("idTask",sql.Int,id)
         .query(querys.deleteTask)
 
         return res
-            .status(200)
-            .json({
-                msg:`tarea con el id ${idTask} eliminada con exito`
-            })
+            .status(204)
+            .json(
+                [`tarea con el id ${id} eliminada con exito`]
+            )
     } catch (error) {
         console.log(error);
         res.status(500).json({"message":error.message})
@@ -64,16 +58,16 @@ export const editTask= async(req,res)=>{
     const idTask  = req.params.id;
     const idUser = req.user.id;
     if(!idTask){
-        return res.status(400).json({
-            msg:"El id de la tarea es requerido"
-        });
+        return res.status(400).json(
+            ["El id de la tarea es requerido"]
+        );
     };
     // se extraen el nombre de la tarea, la descripción y la URL de la imagen del cuerpo de la solicitud
     const { taskName,taskDescription, taskUrlImage } = req.body;
     if(!idUser || !taskName || !taskDescription){
-        res.status(400).json({
-            msg:"Se requiere al menos el nombre de la tarea y su descripcion "
-        });
+        res.status(400).json(
+            ["Se requiere al menos el nombre de la tarea y su descripcion "]
+        );
     }
     try {
         const pool = await getConnection();
@@ -114,16 +108,11 @@ export const getAllTasksByUserId = async(req,res)=>{
         .input("id",sql.Int,userId)
         .query(querys.getAllTasksById)
 
-        if(!tasks.recordsets[0]){
-            return res.status(404).json({
-                msg:"no se encontraron tareas con este usuario"
-            });
-        }
         return res
             .status(200)
-            .json({
-               tasks: tasks.recordset
-            });
+            .json(
+               tasks.recordset
+            );
     } catch (error) {
         console.log(error);
         res.status(500).json({"message":error.message})

@@ -1,4 +1,5 @@
-import { AuthProvider } from "./context/AuthProvider"
+import { AuthProvider } from "./context/auth"
+import { TaskProvider } from "./context/tasks/TaskProvider"
 import { AppRouter } from "./router/AppRouter"
 
 function App() {
@@ -6,7 +7,9 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <AppRouter />
+        <TaskProvider>
+          <AppRouter />
+        </TaskProvider>
       </AuthProvider>
     </>
   )

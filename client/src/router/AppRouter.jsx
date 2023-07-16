@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Login,Register } from "../auth/pages";
-import { AddTask, Home, Profile, TaskInfo, Tasks } from "../todoApp/pages";
+import { AddTask, Home, Profile, Tasks } from "../todoApp/pages";
 import { PrivateRoutes } from "./PrivateRoutes";
 
 export const AppRouter = () => {
@@ -15,7 +15,7 @@ export const AppRouter = () => {
             <Route element={ <PrivateRoutes /> }>
               <Route path="/tasks" element={ <Tasks /> } />
               <Route path="/add-task" element={ <AddTask /> } />
-              <Route path="/task/:id" element={ <TaskInfo /> } />
+              <Route path="/task/:id" element={ <AddTask /> } />
               <Route path="/profile" element={ <Profile /> } />
             </Route>
 
