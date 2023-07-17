@@ -7,15 +7,34 @@ import { useEffect } from "react";
 export const AddTask = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { onCreateTask } = useTasks();
-  const { register, handleSubmit } = useForm();
+  const { onCreateTask, onGetOneTask, onEditTask } = useTasks();
+  const { register, handleSubmit,setValue } = useForm();
+
+
   const onSubmit = handleSubmit ( async( values ) => {
-    await onCreateTask( values );
+    if(params.id){
+      await onEditTask( params.id, values )
+    }else{
+      await onCreateTask( values );
+    }
     navigate('/tasks');
 
   });
   useEffect(() => {
-    
+    const loadTask =async()=>{
+      try {
+        if(params.id){
+          const task = await onGetOneTask(  params.id );
+          setValue('taskName',task.taskName);
+          setValue('taskDescription',task.taskDescription);
+
+          console.log(task)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    loadTask();
   }, []);
   return (
     <div className="bg-zinc-800 max-w-md w-full p-10 rounded-md mx-auto my-28">

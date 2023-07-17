@@ -63,7 +63,7 @@ export const editTask= async(req,res)=>{
         );
     };
     // se extraen el nombre de la tarea, la descripción y la URL de la imagen del cuerpo de la solicitud
-    const { taskName,taskDescription, taskUrlImage } = req.body;
+    const { taskName,taskDescription, taskUrlImage, taskStatus } = req.body;
     if(!idUser || !taskName || !taskDescription){
         res.status(400).json(
             ["Se requiere al menos el nombre de la tarea y su descripcion "]
@@ -79,13 +79,14 @@ export const editTask= async(req,res)=>{
         .input("taskName",sql.VarChar,taskName)
         .input("taskDescription",sql.VarChar,taskDescription)
         .input("taskUrlImage",sql.VarChar,taskUrlImage)
+        .input("taskStatus",sql.VarChar,taskStatus)
         .query(querys.editTask)
         return res
         .status(200)
-        .json({
-            msg:"tarea editada",
-            editedTask:editedTask.recordset
-        });
+        .json(
+            
+            [editedTask.recordset]
+        );
     } catch (error) {
         console.log(error);
         res.status(500).json({"message":error.message})
@@ -139,10 +140,10 @@ export const getOneTaskById = async(req,res)=>{
                 msg:"la tarea no se encontró"
             })
         }
-        return res.status(200).json({
-            msg:"tarea encontrada!!",
-            task:task.recordset
-        });
+        return res.status(200).json(
+            
+            [task.recordset[0]]
+        );
 //En caso de producirse un error durante el proceso, se captura y se devuelve un estado 500 con un mensaje indicando 
     } catch (error) {
         console.log(error)
